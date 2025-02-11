@@ -29,8 +29,11 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
-
+# INSTALLED_APPS에 app name(apps.py에서 확인가능)인 challenges를 넣었다.
+# 이처럼, name을 넣었을 때 django가 app을 인식하게 가능하게 한다.
+# => 이 app에 templates/ 내에 파일이 있다면 include 시켜준다. (단, folder name은 template이어야 함)
 INSTALLED_APPS = [
+    'challenges',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -54,7 +57,11 @@ ROOT_URLCONF = 'monthly_challenges.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        # 하단의 예시처럼 templates를 include 시켜준다. (global한 template일 때 이거를 사용하면 좋다.)
+        'DIRS': [
+            # BASE_DIR / "challenges" / "templates"
+            BASE_DIR / "templates" 
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -114,8 +121,12 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
+# Django에서 자동으로 static 폴더를 추가시킨다.
 
 STATIC_URL = 'static/'
+STATICFILES_DIRS = [
+    BASE_DIR / "static"
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css_files %}
+    <link rel="stylesheet" href="{% static "challenges/challenge.css" %}">
+    <link rel="stylesheet" href="{% static "challenges/includes/header.css" %}">
+{% endblock %}
+
+{% block page_title %}
+    {{ month_name|title }} Challenge
+{% endblock %}
+{% block content %}
+    <!-- 
+        # DTL
+        Django에서 제공하는 DTL(Django Template Language) 
+        {{ text }}을 쓸 때 views에서 정의한 variable를 갖고 와서 쓸 수 있다.
+        
+        * Bussiness logic을 제외한 경우들만 DTL를 사용하자!
+
+        |은 이 text에서 어떻게 filter를 할지 연결해주는 역할.
+        |title일 때 맨 앞 문장을 대문자로 바꿔준다.
+    -->
+    {% include "./includes/header.html" %}
+        <h1>{{ month_name|title }} Challenge</h1>
+    {% if text is not None %}
+        <h2>{{ text }}</h2>
+    {% else %}
+        <p class="fallback">There is no challenge for this month yet!</p>
+    {% endif %}
+{% endblock %}

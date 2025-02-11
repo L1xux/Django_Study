@@ -1,0 +1,54 @@
+
+
+{% extends "base.html" %}
+{% comment %} 
+    extends는 상속을 이용한 것이다.
+    즉, base.html에 뼈대를 만들어 그것을 갖고 오게 하는 것이다.
+{% endcomment %}
+
+
+{% comment %} 
+    static: css, image 등 static file들을 갖고 올 수 있도록 하는 역할
+{% endcomment %}
+{% load static %}
+
+
+{% comment %} 
+    $ block
+        base.html처럼 parent html 내 block으로 지정한 section에 name을 바탕으로 injection한다.
+{% endcomment %}
+{% block css_files %}
+    {% comment %} 
+        1. django에서 자동으로 app 단에서 static folder를 detecting한다.
+        2. 굳이, static/challegnes처럼 굳이 static 하단에 app name인 challenges로 naming 한 이유는? 
+            => Django는 앱마다 개별적인 static/ 폴더를 감지하여 프로젝트 전체의 정적 파일을 하나로 합친다. 
+            즉, load 할 때 중복된 name이 있으면 어떤거를 load 해야 할지 모른다
+        (* templates도 같은 이유로 templates/challenges를 하였다.)
+
+    {% endcomment %} 
+    <link rel="stylesheet" href="{% static "challenges/includes/header.css" %}">
+    <link rel="stylesheet" href="{% static "challenges/challenges.css" %}">
+    <link rel="stylesheet" href="{% static "challenge.css" %}">
+{% endblock %}
+
+{% block page_title %}
+    All Challenges
+{% endblock %}
+{% block content %}
+{% comment %} 
+    $ include
+    - include를 해서 snippet을 injection 한다. (global 하게 다루는 base.html과는 다르다.)
+    - include를 통해 갖고 온 html에서 DTL로 갖고 온 variable를 사용할 수 있다.
+    ex) header.html에서 {{months}}를 써도 용이함.
+{% endcomment %}
+    {% include "./includes/header.html" %}
+    <ul>
+        {% comment %} 
+            $ for
+            python에서 사용하는 for 문을 사용할 수 있다.
+        {% endcomment %}
+        {% for month in months %}
+            <li><a href="{% url "month-challenge" month %}">{{ month|title }}</a></li>
+        {% endfor %}
+    </ul>
+{% endblock %}
